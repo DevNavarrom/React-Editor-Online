@@ -1,41 +1,102 @@
-import React   from 'react';
+import React, { Component }   from 'react';
+import ContentEditable from 'react-contenteditable'
+import './Editor.css'
+import {  quitarTags, formatJson, dividirLineasJson, formatSQL, dividirLineasSQL} from './Funciones';
+
+
+export default class   EditorComponent extends Component {
+
+  stylesColors=[
+    {name:'comillas',value:'#17a2b8'},
+    {name:'reservadas',value:'#17a2b8'},
+    {name:'csimples',value:'#DADB59'}
+  ]
+
+  state={
+    numLines:1
+  }
  
-import { render } from 'react-dom';
-import MonacoEditor from 'react-monaco-editor';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
-  export default class   EditorComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: 'codigo...',
+  componentDidMount(){
+
+    let lines = dividirLineasSQL(this.props.text);
+    let newText=formatSQL(lines,this.stylesColors)
+
+    this.props.onChange(newText);
+
+    this.setState({numLines:lines.length})
+  }
+ 
+  componentDidUpdate(prevProps){
+     if(prevProps.lines!==this.props.lines){
+
+ 
+        this.setState({ numLines:this.props.lines})
+
+
     }
   }
-  editorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
-    editor.focus();
+
+  handleChange = event => {
+
+    let text=event.target.value;
+
+    let lines=quitarTags(text,this.stylesColors);
+
+ 
+    let newText="";
+
+    if(this.props.format==='JSON')
+    newText=formatJson(lines,this.stylesColors)
+    else
+    newText=formatSQL(lines,this.stylesColors)
+
+ 
+    this.props.onChange(newText);
+ 
+    this.setState({...this.state,numLines:lines.length})
   }
-  onChange(newValue, e) {
-    console.log('onChange', newValue, e);
+
+  crearLineas=()=>{
+    let lineas=[];
+ 
+       for (let i= 0; i < this.state.numLines; i++) {
+        lineas.push(<p key={i} className="lines">{(i+1)}</p>)
+      }
+
+      return lineas;
   }
-  render() {
-    const code = this.state.code;
-    const options = {
-      selectOnLineNumbers: true
-    };
+
+ 
+
+  render() { 
+
     return (
-      <MonacoEditor
-      //  monaco={monaco}
-        width="100%"
-        height="600"
-        language="javascript"
-        theme="vs-dark"
-        value={code}
-        options={options}
-        onChange={this.onChange}
-        editorDidMount={this.editorDidMount}
-      />
-    );
+      <div className="App">
+
+         
+                
+                  <div className="cont-lines">
+                    
+                  {this.crearLineas()}
+               
+                  </div>
+                   
+                    <ContentEditable
+                      html={this.props.text}
+                       autoCorrect="false"
+                      autoComplete="off" 
+                      autoCapitalize="off" 
+                      spellCheck="false"
+                      data-column="price"
+                      className="content-editable"
+                      onChange={this.handleChange}
+                    />
+                  
+                
+      </div>
+    )
   }
 }
 
+ 
  

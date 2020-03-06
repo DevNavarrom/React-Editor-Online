@@ -1,7 +1,8 @@
 .App {
     text-align: center;
     height: 100%;
-    /* background: #1e2024; */
+    background: #1e2024;
+    font-family: sans-serif;
 }
 
 .App-logo {
@@ -25,15 +26,16 @@
 }
 
 
-/* h4 {
+/* 
+h4 {
     padding-top: 10px;
     font-family: unset;
-}
+} */
 
 html,
 body {
     height: 100%;
-} */
+}
 
 .menu-escritorio {
     display: flex;

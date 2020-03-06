@@ -1,0 +1,29 @@
+.content-editable {
+    padding: 1rem;
+    color: white;
+    text-align: left;
+    padding-left: 60px;
+    font-size: 1.25rem;
+}
+
+.cont-lines {
+    padding-top: 16px;
+    padding-left: 25px;
+    position: absolute;
+    left: 0px;
+}
+
+.content-editable:focus {
+    /* background: #fcf8e1; */
+    outline: 0;
+}
+
+.color-p-blue {
+    color: #17a2b8;
+}
+
+.lines {
+    font-size: 1.25rem;
+    color: #3c3a3a;
+    margin-bottom: 0;
+}
